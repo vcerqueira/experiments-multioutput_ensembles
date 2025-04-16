@@ -10,7 +10,7 @@ from sklearn.linear_model \
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.cross_decomposition import PLSRegression, PLSCanonical
 
-from common.utils import expand_grid_from_dict
+from src.misc.utils import expand_grid_from_dict
 
 METHODS = \
     dict(

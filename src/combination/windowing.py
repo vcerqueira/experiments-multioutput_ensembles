@@ -3,7 +3,7 @@ from typing import Union
 import numpy as np
 import pandas as pd
 
-from common.normalization import normalize_and_proportion
+from src.misc.normalization import normalize_and_proportion
 
 
 class WindowLoss:

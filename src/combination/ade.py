@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
-from common.normalization import neg_normalize_and_proportion
+from src.misc.normalization import neg_normalize_and_proportion
 
 
 class Arbitrating:

@@ -1,14 +1,12 @@
 from typing import Dict
 
 import time
-import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
-from ensemble.algorithms import METHODS, METHODS_PARAMETERS
-from common.utils import expand_grid_all
-from common.error import multistep_mae
+from src.ensemble.config import METHODS, METHODS_PARAMETERS
+from src.misc.utils import expand_grid_all
 
 
 class MultiOutputEnsemble:
@@ -114,14 +112,6 @@ class MultiOutputEnsemble:
         pass
 
     def compute_model_loss(self, X: pd.DataFrame, Y: pd.DataFrame):
-
-        """
-        this func will have many variations
-        :param X:
-        :param Y:
-        :return:
-        """
-
         model_loss = dict()
         for method in self.models:
             print(f'Computing loss for model: {method}')

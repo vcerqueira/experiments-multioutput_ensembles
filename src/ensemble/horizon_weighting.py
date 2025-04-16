@@ -3,15 +3,14 @@ from typing import Dict
 import numpy as np
 import pandas as pd
 
-from combination.ade import Arbitrating
-from combination.best import BestSingle
-from combination.loss_train import LossTrain
-from combination.opera_bridge import OperaR
-from combination.simple import Simple
-from combination.windowing import WindowLoss
-from committees.external import ExternalCommittee
-from committees.internal import Committee
-from ensemble.base import MultiOutputEnsemble
+from src.combination.ade import Arbitrating
+from src.combination.best import BestSingle
+from src.combination.loss_train import LossTrain
+from src.combination.opera_bridge import OperaR
+from src.combination.simple import Simple
+from src.combination.windowing import WindowLoss
+from src.ensemble.committee import ExternalCommittee, Committee
+from src.ensemble.base import MultiOutputEnsemble
 
 
 class Weighting:
@@ -62,7 +61,7 @@ class Weighting:
 
         self.weights = weights_at_t1
 
-        print('Combining')
+        print('Combining forecasts')
         y_hat_final = {}
         for method in weights_at_t1:
             h_out = {}
