@@ -6,7 +6,7 @@ matplotlib.use('TkAgg')
 import plotnine as p9
 
 past_length = 3000
-future_length = 6000
+future_length = 1000
 
 # Generate a single past path
 past_rw = np.cumsum(np.random.choice([-1, 1], size=past_length))
@@ -16,8 +16,8 @@ past_df = pd.DataFrame({'index': np.arange(past_length), 'value': past_rw})
 start_value = past_rw[-1]
 
 # Generate 5 future random walks to simulate different model forecasts
-n_models = 5
-model_names = [f'Model {i+1}' for i in range(n_models)]
+n_models = 1
+model_names = [f'Model {i + 1}' for i in range(n_models)]
 future_rws = np.array([
     start_value + np.cumsum(np.random.choice([-1, 1], size=future_length))
     for _ in range(n_models)
@@ -42,24 +42,30 @@ all_forecasts = pd.concat([future_df_reset, true_df])
 
 # Create a DataFrame for the vertical line annotation
 vline_text = pd.DataFrame({
-    'x': [past_length+400],
-    'y': [np.max(past_rw) + (np.max(future_rws) - np.min(future_rws)) * 0.3],  # Position text closer to the lines
+    'x': [past_length + 200],
+    # 'y': [np.max(past_rw) + (np.max(future_rws) - np.min(future_rws)) * 0.3],  # Position text closer to the lines
+    'y': [np.max(past_rw) - 2],  # Position text closer to the lines
     'label': ['Forecast\norigin']
 })
 
 # Define a color palette for the models
-model_colors = ["#e74c3c", "#3498db", "#2ecc71", "#f1c40f", "#9b59b6"]
+model_colors = [
+    "#e74c3c",
+    "#3498db",
+    "#2ecc71",
+    "#f1c40f",
+    "#9b59b6"]
 
 rw_plot_combined = \
     p9.ggplot() + \
     p9.geom_line(data=past_df,
                  mapping=p9.aes(x='index', y='value'),
-                 color='black',
+                 color='green',
                  size=1.2) + \
     p9.geom_line(
         data=all_forecasts,
         mapping=p9.aes(x='index', y='value', group='Model',
-                      color='Model', linetype='Model'),
+                       color='Model', linetype='Model'),
         size=1,
         alpha=0.7
     ) + \
@@ -68,21 +74,21 @@ rw_plot_combined = \
         data=vline_text,
         mapping=p9.aes(x='x', y='y', label='label'),
         ha='center',
-        size=10,
+        size=24,
         family='Palatino'
     ) + \
     p9.scale_color_manual(values=model_colors + ['black']) + \
-    p9.scale_linetype_manual(values=['solid']*5 + ['dashed']) + \
+    p9.scale_linetype_manual(values=['solid'] * 5 + ['dashed']) + \
     p9.theme_classic(base_family='Palatino', base_size=12) + \
     p9.theme(
-        plot_margin=.125,
+        plot_margin=.01,
         axis_text=p9.element_blank(),
         axis_ticks_major=p9.element_blank(),
         axis_ticks_minor=p9.element_blank(),
         axis_line=p9.element_blank(),
-        legend_position='right',
+        legend_position='none',
         legend_background=p9.element_rect(fill='white', alpha=0.8)
     ) + \
     p9.labs(x='', y='')
 
-rw_plot_combined.save('example_multistep_forecasts.pdf', width=12, height=7)
+rw_plot_combined.save('example_multistep_forecasts.pdf', width=15, height=6)
